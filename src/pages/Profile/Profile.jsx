@@ -29,7 +29,6 @@ function Profile() {
   const hadleLogOut = () => {
     logOutuser(dispatch);
     navigate("/login");
-    alert("logout success");
   };
 
   const fetchImages = async () => {

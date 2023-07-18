@@ -5,6 +5,8 @@ import { useSelector } from "react-redux";
 import Axios from "axios";
 import { apidomain } from "./../../utils/domain";
 import UpdateTask from "./UpdateTask";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function SingleTask() {
   const { id } = useParams();
@@ -40,7 +42,6 @@ function SingleTask() {
   const handleUpdate = (task) => {
     setTempTaskData(task);
     setshowUpdateForm(!showUpdateForm);
-
     // navigate("/tasks");
   };
 
@@ -51,10 +52,30 @@ function SingleTask() {
           Authorization: `${userData.token}`,
         },
       });
-      console.log(response);
+      // console.log(response.data.message);
+      toast.success(response.data.message, {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
       navigate("/tasks");
     } catch (response) {
-      console.log(response);
+      // console.log(response);
+      toast.error("Something went wrong, try again later", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
     }
   };
 

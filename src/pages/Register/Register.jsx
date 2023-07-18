@@ -7,6 +7,8 @@ import authimage from "../../Images/authimage.jpg";
 import Axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { apidomain } from "../../utils/domain";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const schema = yup.object().shape({
   username: yup.string().required("Full name is required"),
@@ -33,16 +35,39 @@ function Register() {
 
   const onSubmit = (data) => {
     Axios.post(`${apidomain}/auth/register`, data)
-      .then((response) => { 
-        response.data.message && alert(response.data.message);
+      .then((response) => {
+        // response.data.message && alert(response.data.message);
+
+        response.data.message &&
+          toast.success(response.data.message, {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
+
         navigate("/login");
         // console.log(response);
         // reset();
       })
       .catch(({ response }) => {
-        alert(response.data.error);
+        // alert(response.data.error);
+        toast.error(response.data.error, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
         // console.log(response);
-      } );
+      });
 
     // console.log(data);
     // reset();
@@ -78,7 +103,7 @@ function Register() {
           {/* Select role */}
           <>
             <label htmlFor="role"></label>
-            <select  {...register("role")}>
+            <select {...register("role")}>
               <option value="">Select Your Role</option>
               <option value="TeamLead">TeamLead</option>
               <option value="Teammate">Teammate</option>

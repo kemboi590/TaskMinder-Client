@@ -9,6 +9,9 @@ import Tasks from "./pages/Tasks/Tasks";
 import Profile from "./pages/Profile/Profile";
 import SingleTask from "./pages/Tasks/SingleTask";
 
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 function App() {
   return (
     <div>
@@ -23,6 +26,7 @@ function App() {
           <Route path="/tasks/:id" element={<SingleTask />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
+        <ToastContainer />
       </Router>
     </div>
   );

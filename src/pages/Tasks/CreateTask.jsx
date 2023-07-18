@@ -7,6 +7,8 @@ import Axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { apidomain } from "../../utils/domain";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 // schema to do form validation when data is submitted
 const schema = yup.object().shape({
@@ -42,7 +44,17 @@ function CreateTask() {
       // console.log(response);
       setUsers(response.data);
     } catch (error) {
-      console.log("error fetching users");
+      // console.log("error fetching users");
+      toast.error("error when fetching users", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
     }
   };
 
@@ -65,12 +77,32 @@ function CreateTask() {
     })
       .then((resonse) => {
         // console.log(resonse);
-        alert(resonse.data.message);
+        // alert(resonse.data.message);
+        toast.success(resonse.data.message, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
         navigate("/tasks");
         // reset();
       })
       .catch((resonse) => {
-        alert("Oops! Something went wrong, try again later");
+        // alert("Oops! Something went wrong, try again later");
+        toast.error("Oops! Something went wrong, try again later", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
         console.log(resonse);
       });
     // console.log(data);
