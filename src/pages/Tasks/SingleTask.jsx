@@ -7,6 +7,7 @@ import { apidomain } from "./../../utils/domain";
 import UpdateTask from "./UpdateTask";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Discussions from "./Discussions";
 
 function SingleTask() {
   const { id } = useParams();
@@ -164,6 +165,8 @@ function SingleTask() {
           />
         </div>
       )}
+      
+      <Discussions/>
     </div>
   );
 }
