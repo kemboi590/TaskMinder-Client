@@ -139,8 +139,8 @@
     width: 250px;
   }
 }
-@media screen and (max-width: 470px) {
+/* @media screen and (max-width: 470px) {
   .task_card {
     width: 200px;
   }
-}
+} */
