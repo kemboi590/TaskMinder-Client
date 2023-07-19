@@ -2,6 +2,7 @@ import React from "react";
 import "./dashboard.css";
 
 import TaskGif from "../../Images/DashboardGif.gif";
+import DashboardGif from "../../Images/DashboardGif.gif";
 import { useNavigate } from "react-router-dom";
 
 function Dashboard() {
@@ -17,7 +18,7 @@ function Dashboard() {
     <div className="dashboard_page">
       <div className="right_page">
         <div className="imageGif">
-          <img src={TaskGif} alt="TaskGif" />
+          <img src={DashboardGif} alt="Task gif dashboard" />
         </div>
       </div>
 
