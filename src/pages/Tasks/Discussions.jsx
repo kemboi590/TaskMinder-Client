@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { FaTrash } from "react-icons/fa";
 import { BsPencilFill } from "react-icons/bs";
 import { IoSend } from "react-icons/io5";
@@ -8,11 +8,14 @@ import "./discussions.css";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { apidomain } from "../../utils/domain";
+import UpdateComment from "./UpdateComment";
 
 function Discussions() {
   const { id } = useParams(); // get the id of the task
   const userData = useSelector((state) => state.user.user);
   const [commentsDetails, setCommentsDetails] = useState([]);
+  const [showEditForm, setShowEditForm] = useState({}); // show edit form
+  const [tempComment, setTempComment] = useState([]); // temp comment
 
   const getAllComments = async () => {
     try {
@@ -31,11 +34,99 @@ function Discussions() {
   const textareaRef = React.useRef(null);
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (e.target.Coment.value === "") {
+      alert("Comment cannot be empty");
+      return;
+    }
+
+    const content = e.target.Coment.value;
+    const data = {
+      content: content,
+    };
+
+    Axios.post(`${apidomain}/comments/${id}`, data, {
+      headers: {
+        Authorization: `${userData.token}`,
+      },
+    })
+      .then((response) => {
+        // console.log(response.data.message);
+        // alert(response.data.message);
+        toast.success(response.data.message, {
+          position: "top-right",
+          autoClose: 2500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+        // clear the input field
+        textareaRef.current.value = "";
+        getAllComments();
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error("Oops! Something went wrong. Please try again.", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+        textareaRef.current.value = "";
+      });
+  };
+
+  const handleCommentDelete = async (id) => {
+    try {
+      const response = await Axios.delete(`${apidomain}/comments/${id}`, {
+        headers: {
+          Authorization: `${userData.token}`,
+        },
+      });
+      // console.log(response.data.message);
+      toast.success(response.data.message, {
+        position: "top-right",
+        autoClose: 2500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+      getAllComments();
+    } catch (error) {
+      // console.log(error);
+      toast.error("Oops! Something went wrong. Please try again.", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+    }
   };
 
   useEffect(() => {
     getAllComments();
   }, []);
+
+  const handleEditToggle = (comment) => {
+    setShowEditForm((prevState) => ({
+      ...prevState,
+      [comment.comment_id]: !prevState[comment.comment_id],
+    }));
+    setTempComment(comment);
+  };
 
   return (
     <div className="comments_page">
@@ -54,6 +145,23 @@ function Discussions() {
                 {/* <p>Title for task: {comment.title}</p> */}
 
                 <p className="comment_content">{comment.content}</p>
+
+                <div className="edit_delete">
+                  <div className="edit_comment">
+                    <BsPencilFill onClick={() => handleEditToggle(comment)} />
+                    {showEditForm[comment.comment_id] && (
+                      <UpdateComment
+                        comment={tempComment}
+                        getAllComments={getAllComments}
+                      />
+                    )}
+                  </div>
+                  <div className="delete_comment">
+                    <FaTrash
+                      onClick={() => handleCommentDelete(comment.comment_id)}
+                    />
+                  </div>
+                </div>
               </div>
             );
           })}
