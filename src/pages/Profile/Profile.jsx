@@ -13,11 +13,11 @@ import { MdDelete } from "react-icons/md";
 function Profile() {
   const navigate = useNavigate();
   const userData = useSelector((state) => state.user.user);
-  // console.log(userData);
 
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [imageUrls, setImageUrls] = useState([]);
+  const [userImageUrl, setUserImageUrl] = useState(null); // Store the user-specific image URL
 
   let account = "taskminderimagestore";
   let sasToken =
@@ -41,15 +41,23 @@ function Profile() {
         blobServiceClient.getContainerClient(containerName);
       const blobItems = containerClient.listBlobsFlat();
 
-      let urls = "";
+      let urls = [];
       for await (const blob of blobItems) {
-        // console.log(blobServiceClient);
         const imageUrl = `${blobServiceClient.url}${containerName}/${blob.name}`;
-        urls = { name: blob.name, url: imageUrl };
-        // console.log("kemboi", urls);
+        urls.push({ name: blob.name, url: imageUrl });
       }
-      setImageUrls(urls.url);
+      setImageUrls(urls);
       setLoading(false);
+
+      // Find the URL for the specific user and set it to the state
+      const userImage = urls.find(
+        (url) => url.name === `${userData.user_id}.png`
+      );
+      if (userImage) {
+        setUserImageUrl(userImage.url);
+      } else {
+        setUserImageUrl(null);
+      }
     } catch (error) {
       console.log(error);
       setLoading(false);
@@ -67,7 +75,7 @@ function Profile() {
     } else {
       try {
         setLoading(true);
-        const blobName = `${new Date().getTime()}-${file.name}`;
+        const blobName = `${userData.user_id}.png`; // Use the user's ID as the blob name
         const blobServiceClient = new BlobServiceClient(
           `https://${account}.blob.core.windows.net/?${sasToken}`
         );
@@ -77,10 +85,8 @@ function Profile() {
         const result = await blobClient.uploadData(file, {
           blobHTTPHeaders: { blobContentType: file.type },
         });
-        // console.log(result);
-        // Clear the imageUrls array before fetching the new images
 
-        // setImageUrls([]);
+        // Fetch the new images and find the URL for the specific user
         fetchImages();
         setLoading(false);
       } catch (error) {
@@ -97,7 +103,7 @@ function Profile() {
     const containerClient = blobServiceClient.getContainerClient(containerName);
     const blobClient = containerClient.getBlockBlobClient(blobName);
     const result = await blobClient.delete();
-    // console.log(result);
+    fetchImages(); // Fetch the images again after deleting the image
   };
 
   return (
@@ -113,8 +119,8 @@ function Profile() {
                   src={URL.createObjectURL(file)}
                   alt="no pic"
                 />
-              ) : imageUrls ? (
-                <img className="" src={imageUrls} alt="profile pic" />
+              ) : userImageUrl ? (
+                <img className="" src={userImageUrl} alt="profile pic" />
               ) : (
                 <img className="displayImg" src={placeholder} alt="nopic" />
               )}
@@ -135,12 +141,14 @@ function Profile() {
               </button>
 
               {/* button to delete image */}
-              <button
-                onClick={() => deleteImage(imageUrls.name)}
-                className="delbtn"
-              >
-                <MdDelete className="del_profile" />
-              </button>
+              {userImageUrl && (
+                <button
+                  onClick={() => deleteImage(userData.user_id + ".png")}
+                  className="delbtn"
+                >
+                  <MdDelete className="del_profile" />
+                </button>
+              )}
             </div>
           </form>
         </div>

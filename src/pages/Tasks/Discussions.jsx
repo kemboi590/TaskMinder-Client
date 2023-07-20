@@ -133,11 +133,14 @@ function Discussions() {
       <h2 className="comment_title">Comments</h2>
 
       <div className="wrap_comments">
-        {commentsDetails &&
+      {commentsDetails &&
           commentsDetails.map((comment, index) => {
             const timestamp = new Date(comment.timestamp).toLocaleString();
+            const isCurrentUserComment = comment.username === userData.username;
+            const chatClass = isCurrentUserComment ? "chat_bubble_right" : "chat_bubble_left";
+
             return (
-              <div className="comment_card" key={index}>
+              <div className={`comment_card ${chatClass}`} key={index}>
                 <div className="upper_div">
                   <p> {comment.username}</p>
                   <p> {timestamp}</p>

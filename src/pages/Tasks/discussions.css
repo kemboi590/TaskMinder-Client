@@ -88,3 +88,15 @@
 .delete_comment {
   color: rgba(211, 27, 27, 0.931);
 }
+
+.chat_bubble_right {
+  align-self: flex-end;
+  background-color: #007bff9b;
+  color: #fff;
+}
+
+.chat_bubble_left {
+  align-self: flex-start;
+  background-color: #f0f0f0;
+  color: #333;
+}
