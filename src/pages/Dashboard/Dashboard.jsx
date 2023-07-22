@@ -1,6 +1,6 @@
 import React from "react";
 import "./dashboard.css";
-import DashboardGif from "../../Images/DashboardGif.gif";
+import DashboardGif from "../../Images/DashboardGif.gif"
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
