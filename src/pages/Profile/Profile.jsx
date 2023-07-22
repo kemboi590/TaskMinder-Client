@@ -22,8 +22,6 @@ function Profile() {
   const [userImageUrl, setUserImageUrl] = useState(null); // Store the user-specific image URL
 
   let account = "taskminderimagestore";
-  // let sasToken =
-  //   "sv=2022-11-02&ss=bf&srt=sco&sp=rwdlaciytfx&se=2023-08-10T14:42:42Z&st=2023-07-17T06:42:42Z&spr=https&sig=FSiYio%2FYQfHjjD8oHFyWiyXFYNuEpKSiDxqs4GP0sCc%3D";
   let sasToken = import.meta.env.VITE_SAS_TOKEN;
   const containerName = "imagestore";
 
@@ -44,12 +42,10 @@ function Profile() {
       const blobItems = containerClient.listBlobsFlat();
 
       let urls = []; //returns an array of objects with name and url
-      // console.log(urls)
       for await (const blob of blobItems) {
         const imageUrl = `${blobServiceClient.url}${containerName}/${blob.name}`;
         urls.push({ name: blob.name, url: imageUrl });
       }
-      // console.log(urls);
       setImageUrls(urls);
       setLoading(false);
 
@@ -68,8 +64,6 @@ function Profile() {
     }
   };
 
-
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!file) {
@@ -86,7 +80,7 @@ function Profile() {
     } else {
       try {
         setLoading(true);
-        const blobName = `${userData.user_id}.png`; // Use the user's ID as the blob name
+        const blobName = `${userData.user_id}.png`;
         const blobServiceClient = new BlobServiceClient(
           `https://${account}.blob.core.windows.net/?${sasToken}` // Use the SAS token to authenticate
         );
@@ -140,8 +134,7 @@ function Profile() {
       setUserImageUrl(null);
       await fetchImages();
       window.location.reload();
-    }
-    catch (error) {
+    } catch (error) {
       console.log("Error deleting image:", error);
     }
   };
