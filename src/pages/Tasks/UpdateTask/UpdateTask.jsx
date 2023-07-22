@@ -8,7 +8,6 @@ import { toast } from "react-toastify";
 import { toastStyles } from "../../../toastConfig";
 import { validateForm } from "./formValidation";
 import "react-toastify/dist/ReactToastify.css";
-import { toastStyles } from "../../../toastConfig";
 
 function UpdateTask({ setshowUpdateForm, task, fetchSingleTask }) {
   const [title, setTitle] = useState("");
