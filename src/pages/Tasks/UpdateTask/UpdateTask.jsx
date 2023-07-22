@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./updateTask.css";
 import Axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { apidomain } from "../../utils/domain";
+import { apidomain } from "../../../utils/domain";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";

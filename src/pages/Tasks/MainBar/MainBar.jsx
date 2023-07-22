@@ -1,8 +1,9 @@
 import React from "react";
 import "./mainbar.css";
-import CreateTask from "./CreateTask";
-import ViewTask from "./ViewTask";
-import Contact from "./Contact";
+
+import CreateTask from "../CreateTask/CreateTask";
+import ViewTask from "../ViewTasks/ViewTask";
+import Contact from "../Charts/Contact";
 import { useSelector } from "react-redux";
 
 function MainBar() {

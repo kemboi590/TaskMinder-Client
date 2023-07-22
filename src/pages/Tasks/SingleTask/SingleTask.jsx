@@ -3,11 +3,11 @@ import "./singleTask.css";
 import { useParams, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Axios from "axios";
-import { apidomain } from "./../../utils/domain";
-import UpdateTask from "./UpdateTask";
+import { apidomain } from "../../../utils/domain";
+import UpdateTask from "../UpdateTask/UpdateTask";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Discussions from "./Discussions";
+import Discussions from "./../Discussions/Discussions";
 
 function SingleTask() {
   const { id } = useParams();
@@ -165,8 +165,8 @@ function SingleTask() {
           />
         </div>
       )}
-      
-      <Discussions/>
+
+      <Discussions />
     </div>
   );
 }

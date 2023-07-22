@@ -1,12 +1,12 @@
 import React from "react";
 import "./sidenav.css";
 
-import taskicon from "../../Images/task-Icon.png";
+import taskicon from "../../../Images/task-Icon.png";
 import { BiAddToQueue } from "react-icons/bi";
 import { FaTasks } from "react-icons/fa";
 import { BiSolidContact } from "react-icons/bi";
 import { useDispatch } from "react-redux";
-import { display } from "./../../Redux/apiCall";
+import { display } from "../../../Redux/apiCall";
 
 function SideNav() {
   const dispatch = useDispatch();

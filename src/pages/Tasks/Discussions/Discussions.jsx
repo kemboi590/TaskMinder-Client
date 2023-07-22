@@ -7,8 +7,8 @@ import { useParams } from "react-router-dom";
 import "./discussions.css";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { apidomain } from "../../utils/domain";
-import UpdateComment from "./UpdateComment";
+import { apidomain } from "../../../utils/domain";
+import UpdateComment from "./../UpdateComment/UpdateComment";
 
 function Discussions() {
   const { id } = useParams(); // get the id of the task
@@ -133,11 +133,13 @@ function Discussions() {
       <h2 className="comment_title">Comments</h2>
 
       <div className="wrap_comments">
-      {commentsDetails &&
+        {commentsDetails &&
           commentsDetails.map((comment, index) => {
             const timestamp = new Date(comment.timestamp).toLocaleString();
             const isCurrentUserComment = comment.username === userData.username;
-            const chatClass = isCurrentUserComment ? "chat_bubble_right" : "chat_bubble_left";
+            const chatClass = isCurrentUserComment
+              ? "chat_bubble_right"
+              : "chat_bubble_left";
 
             return (
               <div className={`comment_card ${chatClass}`} key={index}>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./viewtask.css";
 import Axios from "axios";
-import { apidomain } from "../../utils/domain";
+import { apidomain } from "../../../utils/domain";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
@@ -16,7 +16,7 @@ function ViewTask() {
   const [priorityFilter, setPriorityFilter] = useState("");
   // const [dueDateFilter, setDueDateFilter] = useState("");
 
- const getAllTasks = async () => {
+  const getAllTasks = async () => {
     try {
       const response = await Axios.get(`${apidomain}/tasks`, {
         headers: {
@@ -93,33 +93,33 @@ function ViewTask() {
         const dueDateTime = dueDate.toLocaleTimeString();
 
         return (
-          <Link to={`/tasks/${task.task_id}`} key={task.task_id }>
-          <div className="task_card" key={task.task_id}>
-            <div className="task_title">
-              <h4>Task Title: {task.title}</h4>
-            </div>
-            <div className="moreTaskDetails">
-              {/* created at */}
-              <div className="date_created">
-                <p className="created_at">Created at: {CreatedDate}</p>
+          <Link to={`/tasks/${task.task_id}`} key={task.task_id}>
+            <div className="task_card" key={task.task_id}>
+              <div className="task_title">
+                <h4>Task Title: {task.title}</h4>
               </div>
-              {/* due date */}
-              <div className="Due_date">
-                <p>Due Date: {dueDateDate} </p>
-              </div>
+              <div className="moreTaskDetails">
+                {/* created at */}
+                <div className="date_created">
+                  <p className="created_at">Created at: {CreatedDate}</p>
+                </div>
+                {/* due date */}
+                <div className="Due_date">
+                  <p>Due Date: {dueDateDate} </p>
+                </div>
 
-              <div className="assigned_member">
-                <p>Assigned to: {task.username}</p>
-              </div>
-              <div className="task_priority">
-                <p>Priotity: {task.priority}</p>
-              </div>
-              <div className="task_status">
-                <p>Status: Not yet started</p>
+                <div className="assigned_member">
+                  <p>Assigned to: {task.username}</p>
+                </div>
+                <div className="task_priority">
+                  <p>Priotity: {task.priority}</p>
+                </div>
+                <div className="task_status">
+                  <p>Status: Not yet started</p>
+                </div>
               </div>
             </div>
-            </div>
-            </Link>
+          </Link>
         );
       })}
     </div>
@@ -127,4 +127,3 @@ function ViewTask() {
 }
 
 export default ViewTask;
-

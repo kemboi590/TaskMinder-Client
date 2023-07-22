@@ -5,7 +5,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { apidomain } from "../../utils/domain";
+import { apidomain } from "../../../utils/domain";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";

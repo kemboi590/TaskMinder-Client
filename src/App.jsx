@@ -7,8 +7,7 @@ import Login from "./pages/Login/Login";
 import NotFound from "./pages/NotFound/NotFound";
 import Tasks from "./pages/Tasks/Tasks";
 import Profile from "./pages/Profile/Profile";
-import SingleTask from "./pages/Tasks/SingleTask";
-
+import SingleTask from "./pages/Tasks/SingleTask/SingleTask";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 

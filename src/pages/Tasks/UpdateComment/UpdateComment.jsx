@@ -2,7 +2,7 @@ import React,{ useEffect, useState } from "react";
 import "./updatecomment.css";
 import { IoSend } from "react-icons/io5";
 import Axios from "axios";
-import { apidomain } from "./../../utils/domain";
+import { apidomain } from "../../../utils/domain";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useSelector } from "react-redux";
