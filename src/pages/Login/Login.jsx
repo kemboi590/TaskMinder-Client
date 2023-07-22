@@ -24,9 +24,6 @@ const schema = yup.object().shape({
 
 function Login() {
   const dispatch = useDispatch();
-  console.log(useSelector((state) => state.user.user));
-  const userData = useSelector((state) => state.user.user);
-  console.log(userData);
   const navigate = useNavigate();
   const {
     register,

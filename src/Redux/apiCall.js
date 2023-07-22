@@ -17,15 +17,12 @@ export const loginUser = async (dispatch, user, callback) => {
   try {
     const { data } = await Axios.post(`${apidomain}/auth/login`, user);
     if (data.token) {
-      // console.log(data);
       dispatch(loginSuccess(data));
-      // alert("Login successful");
       toast.success("Login successful", toastStyles.success);
       callback();
     }
   } catch ({ response }) {
     dispatch(loginFailure());
-    // alert(response.data.error);
     toast.error(response.data.error, toastStyles.error);
   }
 };
@@ -33,14 +30,5 @@ export const loginUser = async (dispatch, user, callback) => {
 export const logOutuser = async (dispatch) => {
   // console.log(dispatch);
   dispatch(logOut());
-  toast.success("You are logged out", {
-    position: "top-right",
-    autoClose: 3000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    theme: "colored",
-  });
+  toast.success("You are logged out", toastStyles.success);
 };
