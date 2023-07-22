@@ -7,10 +7,12 @@ import { ImHome } from "react-icons/im";
 import { FaTasks } from "react-icons/fa";
 import { GiArchiveRegister } from "react-icons/gi";
 import { MdOutlineLogin } from "react-icons/md";
+import { AiOutlineUserAdd } from "react-icons/ai";
 import { useSelector } from "react-redux";
 
 function Navbar() {
   const userData = useSelector((state) => state.user.user);
+  console.log(userData);
 
   return (
     <div className="navbar_page">
@@ -43,7 +45,9 @@ function Navbar() {
 
           {userData ? (
             <li>
-              <Link to="/profile">Profile</Link>
+              <Link to="/profile">
+                <AiOutlineUserAdd /> {userData.username}
+              </Link>
             </li>
           ) : (
             <>
@@ -62,21 +66,6 @@ function Navbar() {
               </li>
             </>
           )}
-
-          {/* register */}
-          {/* <li>
-            <Link to="/register">
-              <GiArchiveRegister />
-              Register
-            </Link>
-          </li> */}
-          {/* login */}
-          {/* <li>
-            <Link to="/login">
-              <MdOutlineLogin />
-              Login
-            </Link>
-          </li> */}
         </div>
       </ul>
     </div>
