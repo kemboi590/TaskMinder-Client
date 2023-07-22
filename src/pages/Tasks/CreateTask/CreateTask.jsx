@@ -9,6 +9,7 @@ import { apidomain } from "../../../utils/domain";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { toastStyles } from "../../../toastConfig";
 
 // schema to do form validation when data is submitted
 const schema = yup.object().shape({
@@ -31,9 +32,7 @@ const schema = yup.object().shape({
 function CreateTask() {
   const [users, setUsers] = useState([]);
   const userData = useSelector((state) => state.user.user);
-  // console.log(userData);
   const navigate = useNavigate();
-  // get all users in the database
   const getAllUsers = async () => {
     try {
       const response = await Axios.get(`${apidomain}/users`, {
@@ -41,20 +40,9 @@ function CreateTask() {
           Authorization: `${userData.token}`,
         },
       });
-      // console.log(response);
       setUsers(response.data);
     } catch (error) {
-      // console.log("error fetching users");
-      toast.error("error when fetching users", {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
+      toast.error("error fetching users", toastStyles.error);
     }
   };
 
@@ -76,33 +64,15 @@ function CreateTask() {
       },
     })
       .then((resonse) => {
-        // console.log(resonse);
-        // alert(resonse.data.message);
-        toast.success(resonse.data.message, {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
+        toast.success(resonse.data.message, toastStyles.success);
         navigate("/tasks");
         // reset();
       })
       .catch((resonse) => {
-        // alert("Oops! Something went wrong, try again later");
-        toast.error("Oops! Something went wrong, try again later", {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
+        toast.error(
+          "Oops! Something went wrong, try again later",
+          toastStyles.error
+        );
         console.log(resonse);
       });
     // console.log(data);
@@ -165,7 +135,6 @@ function CreateTask() {
           </div>
 
           <br />
-          {/* calender to choose due date */}
           <div>
             <label className="task_dueDate">Due Date</label>
             <br />

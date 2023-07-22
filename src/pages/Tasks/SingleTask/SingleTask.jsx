@@ -8,6 +8,7 @@ import UpdateTask from "../UpdateTask/UpdateTask";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Discussions from "./../Discussions/Discussions";
+import { toastStyles } from "../../../toastConfig";
 
 function SingleTask() {
   const { id } = useParams();
@@ -15,7 +16,6 @@ function SingleTask() {
   const userData = useSelector((state) => state.user.user);
   const [tempTaskData, setTempTaskData] = useState([]);
   const [showUpdateForm, setshowUpdateForm] = useState(false);
-
   const [task, setTask] = useState([]);
 
   const fetchSingleTask = async () => {
@@ -26,7 +26,6 @@ function SingleTask() {
         },
       });
       setTask(response.data);
-      // console.log(response);
     } catch (response) {
       console.log(response);
     }
@@ -54,29 +53,11 @@ function SingleTask() {
         },
       });
       // console.log(response.data.message);
-      toast.success(response.data.message, {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
+      toast.success(response.data.message, toastStyles.success);
       navigate("/tasks");
     } catch (response) {
       // console.log(response);
-      toast.error("Something went wrong, try again later", {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
+      toast.error("Something went wrong, try again later", toastStyles.error);
     }
   };
 
@@ -137,7 +118,7 @@ function SingleTask() {
 
                 <tr>
                   <td>Status:</td>
-                  <td>Not Yet started</td>
+                  <td>{task.status || "Not Started"}</td>
                 </tr>
 
                 <tr>

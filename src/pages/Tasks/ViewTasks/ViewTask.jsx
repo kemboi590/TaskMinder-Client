@@ -4,12 +4,12 @@ import Axios from "axios";
 import { apidomain } from "../../../utils/domain";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { toastStyles } from "../../../toastConfig";
 import { Link } from "react-router-dom";
 
 function ViewTask() {
   const navigate = useNavigate();
   const userData = useSelector((state) => state.user.user);
-  // console.log(userData)
   const [tasks, setTasks] = useState([]);
   const [filteredTasks, setFilteredTasks] = useState([]);
   const [titleFilter, setTitleFilter] = useState("");
@@ -24,7 +24,6 @@ function ViewTask() {
         },
       });
       setTasks(response.data);
-      // console.log(response.data);
     } catch (response) {
       console.log(response);
     }
@@ -35,9 +34,7 @@ function ViewTask() {
   }, []);
 
   useEffect(() => {
-    // Apply filtering logic whenever any of the filters or tasks change
     let filtered = tasks;
-
     // Apply title filter
     if (titleFilter !== "") {
       const lowercaseTitleFilter = titleFilter.toLowerCase(); // Ignore case
@@ -111,11 +108,11 @@ function ViewTask() {
                 <div className="assigned_member">
                   <p>Assigned to: {task.username}</p>
                 </div>
+                <div className="task_status">
+                  <p>Status: {task.status || "Not Yet Started"}</p>
+                </div>
                 <div className="task_priority">
                   <p>Priotity: {task.priority}</p>
-                </div>
-                <div className="task_status">
-                  <p>Status: Not yet started</p>
                 </div>
               </div>
             </div>

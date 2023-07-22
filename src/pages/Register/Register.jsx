@@ -8,6 +8,7 @@ import Axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { apidomain } from "../../utils/domain";
 import { toast } from "react-toastify";
+import { toastStyles } from "../../toastConfig";
 import "react-toastify/dist/ReactToastify.css";
 
 const schema = yup.object().shape({
@@ -36,41 +37,15 @@ function Register() {
   const onSubmit = (data) => {
     Axios.post(`${apidomain}/auth/register`, data)
       .then((response) => {
-        // response.data.message && alert(response.data.message);
-
         response.data.message &&
-          toast.success(response.data.message, {
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "colored",
-          });
-
+          toast.success(response.data.message, toastStyles.success);
         navigate("/login");
-        // console.log(response);
         // reset();
       })
       .catch(({ response }) => {
-        // alert(response.data.error);
-        toast.error(response.data.error, {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
-        // console.log(response);
+        toast.error(response.data.error, toastStyles.error);
       });
-
-    // console.log(data);
-    // reset();
+     // reset();
   };
 
   return (

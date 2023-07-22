@@ -43,7 +43,6 @@ function Login() {
       <div className="login_form">
         <form onSubmit={handleSubmit(onSubmit)}>
           <h3 className="login_title">LOGIN YOUR ACCOUNT</h3>
-
           <>
             <input
               className="inputFieldLogin"
@@ -54,7 +53,6 @@ function Login() {
             <p className="errors">{errors.email?.message}</p>
           </>
           <br />
-
           {/* Input password */}
           <>
             <input
@@ -67,7 +65,6 @@ function Login() {
           </>
           <br />
           {/* Confirm password */}
-
           <>
             <input type="submit" value="LOGIN" className="submit_btn" />
           </>

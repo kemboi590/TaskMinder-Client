@@ -5,7 +5,10 @@ import { useNavigate } from "react-router-dom";
 import { apidomain } from "../../../utils/domain";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { toastStyles } from "../../../toastConfig";
+import { validateForm } from "./formValidation";
 import "react-toastify/dist/ReactToastify.css";
+import { toastStyles } from "../../../toastConfig";
 
 function UpdateTask({ setshowUpdateForm, task, fetchSingleTask }) {
   const [title, setTitle] = useState("");
@@ -14,6 +17,7 @@ function UpdateTask({ setshowUpdateForm, task, fetchSingleTask }) {
   const [due_date, setDue_date] = useState("");
   const [priority, setPriority] = useState("");
   const [errors, setErrors] = useState({});
+  const [status, setStatus] = useState("");
 
   useEffect(() => {
     if (task) {
@@ -23,6 +27,7 @@ function UpdateTask({ setshowUpdateForm, task, fetchSingleTask }) {
       const formattedDueDate = task.due_date.split("T")[0];
       setDue_date(formattedDueDate);
       setPriority(task.priority || "");
+      setStatus(task.status || "Not started");
     }
   }, [task]);
 
@@ -40,17 +45,7 @@ function UpdateTask({ setshowUpdateForm, task, fetchSingleTask }) {
       });
       setUsers(response.data);
     } catch (error) {
-      // console.log("error fetching users");
-      toast.error("error occured when fetching users", {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
+      toast.error("error fetching users", toastStyles.error);
     }
   };
 
@@ -61,84 +56,49 @@ function UpdateTask({ setshowUpdateForm, task, fetchSingleTask }) {
   const handleClose = () => {
     setshowUpdateForm(false);
   };
-  // validating that the form has data on submitting
-  const validateForm = () => {
-    const errors = {};
 
-    if (title.trim() === "") {
-      errors.title = "Title is required";
-    }
-
-    if (description.trim() === "") {
-      errors.description = "Description is required";
-    }
-
-    if (!assigned_to) {
-      errors.assigned_to = "Assigned to is required";
-    }
-
-    if (due_date.trim() === "") {
-      errors.due_date = "Due date is required";
-    }
-
-    if (!priority) {
-      errors.priority = "Priority is required";
-    }
-
-    setErrors(errors);
-
-    return Object.keys(errors).length === 0;
-  };
-  // submitting data in thr form
   const handleUpdate = async (e) => {
     e.preventDefault();
 
-    if (!validateForm()) {
-      return;
-    }
+    const errors = validateForm(
+      title,
+      description,
+      assigned_to,
+      due_date,
+      priority,
+      status
+    );
+    setErrors(errors);
 
-    try {
-      const response = await Axios.put(
-        `${apidomain}/tasks/${task.task_id}`,
-        {
-          title: title,
-          description: description,
-          assigned_to: assigned_to,
-          due_date: due_date,
-          priority: priority,
-        },
-        {
-          headers: {
-            Authorization: `${userData.token}`,
+    if (Object.keys(errors).length === 0) {
+      try {
+        const response = await Axios.put(
+          `${apidomain}/tasks/${task.task_id}`,
+          {
+            title: title,
+            description: description,
+            assigned_to: assigned_to,
+            due_date: due_date,
+            priority: priority,
+            status: status,
           },
-        }
-      );
-      // console.log(response.data.message);
-      // alert(response.data.message);
-      toast.success(response.data.message, {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
-      fetchSingleTask();
-    } catch (response) {
-      // alert("an error occured, please try again");
-      toast.error("an error occured, please try again later", {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
-      // console.log(response);
+          {
+            headers: {
+              Authorization: `${userData.token}`,
+            },
+          }
+        );
+        // console.log(response.data.message);
+        toast.success(response.data.message, toastStyles.success);
+        fetchSingleTask();
+      } catch (response) {
+        // alert("an error occured, please try again");
+        toast.error(
+          "an error occured, please try again later",
+          toastStyles.error
+        );
+        // console.log(response);
+      }
     }
   };
 
@@ -197,6 +157,23 @@ function UpdateTask({ setshowUpdateForm, task, fetchSingleTask }) {
             {errors.assigned_to && (
               <span className="errors">{errors.assigned_to}</span>
             )}
+          </div>
+          <div className="task_progress">
+            <label className="task_progress">Task Progress</label>
+            <br />
+            {/* select for task progress */}
+            <select
+              className="select_progress"
+              name="status"
+              value={status}
+              onChange={(e) => setStatus(e.target.value)}
+            >
+              <option value="Not Started">Not Started</option>
+              <option value="In Progress">In Progress</option>
+              <option value="Completed">Completed</option>
+              <option value="Overdue">Overdue</option>
+            </select>
+            {errors.status && <span className="errors">{errors.status}</span>}
           </div>
           <br />
           <div>

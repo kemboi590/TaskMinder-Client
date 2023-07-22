@@ -9,13 +9,14 @@ import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { apidomain } from "../../../utils/domain";
 import UpdateComment from "./../UpdateComment/UpdateComment";
+import { toastStyles } from "../../../toastConfig";
 
 function Discussions() {
-  const { id } = useParams(); // get the id of the task
+  const { id } = useParams();
   const userData = useSelector((state) => state.user.user);
   const [commentsDetails, setCommentsDetails] = useState([]);
-  const [showEditForm, setShowEditForm] = useState({}); // show edit form
-  const [tempComment, setTempComment] = useState([]); // temp comment
+  const [showEditForm, setShowEditForm] = useState({}); 
+  const [tempComment, setTempComment] = useState([]); 
 
   const getAllComments = async () => {
     try {
@@ -24,7 +25,7 @@ function Discussions() {
           Authorization: `${userData.token}`,
         },
       });
-      console.log(response.data);
+      // console.log(response.data);
       setCommentsDetails(response.data);
     } catch (response) {
       console.log(response);
@@ -35,7 +36,7 @@ function Discussions() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (e.target.Coment.value === "") {
-      alert("Comment cannot be empty");
+      toast.error("Comment cannot be empty", toastStyles.error);
       return;
     }
 
@@ -50,34 +51,13 @@ function Discussions() {
       },
     })
       .then((response) => {
-        // console.log(response.data.message);
-        // alert(response.data.message);
-        toast.success(response.data.message, {
-          position: "top-right",
-          autoClose: 2500,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
-        // clear the input field
+        toast.success(response.data.message, toastStyles.success);
         textareaRef.current.value = "";
         getAllComments();
       })
       .catch((error) => {
         console.log(error);
-        toast.error("Oops! Something went wrong. Please try again.", {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
+        toast.error("Oops! Something went wrong. Please try again.", toastStyles.error);
         textareaRef.current.value = "";
       });
   };
@@ -90,29 +70,11 @@ function Discussions() {
         },
       });
       // console.log(response.data.message);
-      toast.success(response.data.message, {
-        position: "top-right",
-        autoClose: 2500,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
+      toast.success(response.data.message, toastStyles.success);
       getAllComments();
     } catch (error) {
       // console.log(error);
-      toast.error("Oops! Something went wrong. Please try again.", {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
+      toast.error("Oops! Something went wrong. Please try again.", toastStyles.error);
     }
   };
 
@@ -150,7 +112,6 @@ function Discussions() {
                 {/* <p>Title for task: {comment.title}</p> */}
 
                 <p className="comment_content">{comment.content}</p>
-
                 <div className="edit_delete">
                   <div className="edit_comment">
                     <BsPencilFill onClick={() => handleEditToggle(comment)} />
