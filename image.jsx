@@ -24,8 +24,7 @@ function Profile() {
   console.log(newProfilePic);
 
   let account = "taskminderimagestore";
-  let sasToken =
-    "sv=2022-11-02&ss=bf&srt=sco&sp=rwdlaciytfx&se=2023-08-10T14:42:42Z&st=2023-07-17T06:42:42Z&spr=https&sig=FSiYio%2FYQfHjjD8oHFyWiyXFYNuEpKSiDxqs4GP0sCc%3D";
+  let sasToken = "the value of the token";
 
   const containerName = "imagestore";
 

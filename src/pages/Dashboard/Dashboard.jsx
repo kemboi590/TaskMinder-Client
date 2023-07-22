@@ -1,11 +1,11 @@
 import React from "react";
 import "./dashboard.css";
-
-import TaskGif from "../../Images/DashboardGif.gif";
 import DashboardGif from "../../Images/DashboardGif.gif";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function Dashboard() {
+  const userData = useSelector((state) => state.user.user);
   const navigate = useNavigate();
 
   const handleRegisterBTN = () => {
@@ -24,18 +24,27 @@ function Dashboard() {
 
       <div className="description_details">
         <h3 className="intro_base">Efficient Task Management Made Easy</h3>
-
         <div className="more_detail">
           <h4>Boost Your Productivity by Managing Tasks.</h4>
-
           <h3 className="teamwork">The power of Team Work</h3>
         </div>
-
-        <p className="start_today"> Start Today: </p>
+        {!userData ? (
+          <p className="start_today"> Start Today: </p>
+        ) : (
+          <p className="start_today">
+            Welcome <span >{userData.username} </span> to TaskMider:
+          </p>
+        )}
 
         <div className="home_buttons">
-          <button onClick={handleRegisterBTN}>REGISTER</button>
-          <button onClick={handleLoginBTN}>LOGIN</button>
+          {!userData ? (
+            <>
+              <button onClick={handleRegisterBTN}>REGISTER</button>
+              <button onClick={handleLoginBTN}>LOGIN</button>
+            </>
+          ) : (
+            <button onClick={() => navigate("/tasks")}>TASKS PAGE</button>
+          )}
         </div>
       </div>
     </div>

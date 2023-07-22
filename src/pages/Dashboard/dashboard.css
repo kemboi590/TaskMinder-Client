@@ -62,6 +62,10 @@
   font-family: Arial, Helvetica, sans-serif;
   color: #1e90ff;
 }
+.start_today span{
+  color: #563b3b;
+  font-style: italic;
+}
 .home_buttons {
   display: flex;
   justify-content: space-between;
