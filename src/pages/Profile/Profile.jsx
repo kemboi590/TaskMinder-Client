@@ -7,6 +7,8 @@ import placeholder from "../../Images/placeholder.png";
 import Loading from "../../components/Loading/Loading";
 import { BlobServiceClient } from "@azure/storage-blob";
 import { MdDelete } from "react-icons/md";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 // Import environment variable
 
@@ -20,9 +22,9 @@ function Profile() {
   const [userImageUrl, setUserImageUrl] = useState(null); // Store the user-specific image URL
 
   let account = "taskminderimagestore";
-  let sasToken =
-    "sv=2022-11-02&ss=bf&srt=sco&sp=rwdlaciytfx&se=2023-08-10T14:42:42Z&st=2023-07-17T06:42:42Z&spr=https&sig=FSiYio%2FYQfHjjD8oHFyWiyXFYNuEpKSiDxqs4GP0sCc%3D";
-
+  // let sasToken =
+  //   "sv=2022-11-02&ss=bf&srt=sco&sp=rwdlaciytfx&se=2023-08-10T14:42:42Z&st=2023-07-17T06:42:42Z&spr=https&sig=FSiYio%2FYQfHjjD8oHFyWiyXFYNuEpKSiDxqs4GP0sCc%3D";
+  let sasToken = import.meta.env.VITE_SAS_TOKEN;
   const containerName = "imagestore";
 
   const dispatch = useDispatch();
@@ -41,11 +43,13 @@ function Profile() {
         blobServiceClient.getContainerClient(containerName);
       const blobItems = containerClient.listBlobsFlat();
 
-      let urls = [];
+      let urls = []; //returns an array of objects with name and url
+      // console.log(urls)
       for await (const blob of blobItems) {
         const imageUrl = `${blobServiceClient.url}${containerName}/${blob.name}`;
         urls.push({ name: blob.name, url: imageUrl });
       }
+      // console.log(urls);
       setImageUrls(urls);
       setLoading(false);
 
@@ -64,26 +68,45 @@ function Profile() {
     }
   };
 
-  useEffect(() => {
-    fetchImages();
-  }, []);
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!file) {
-      return alert("File not exist");
+      return toast.error("File does not exist", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
     } else {
       try {
         setLoading(true);
         const blobName = `${userData.user_id}.png`; // Use the user's ID as the blob name
         const blobServiceClient = new BlobServiceClient(
-          `https://${account}.blob.core.windows.net/?${sasToken}`
+          `https://${account}.blob.core.windows.net/?${sasToken}` // Use the SAS token to authenticate
         );
+        //blobService Client is a class that allows us to interact with the blob storage
         const containerClient =
-          blobServiceClient.getContainerClient(containerName);
-        const blobClient = containerClient.getBlockBlobClient(blobName);
+          blobServiceClient.getContainerClient(containerName); // Get the container client used to interact with the container
+        const blobClient = containerClient.getBlockBlobClient(blobName); // Get the blob client used to interact with the blob
         const result = await blobClient.uploadData(file, {
           blobHTTPHeaders: { blobContentType: file.type },
+        });
+
+        toast.success("File uploaded successfully", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
         });
 
         // Fetch the new images and find the URL for the specific user
@@ -102,12 +125,33 @@ function Profile() {
     );
     const containerClient = blobServiceClient.getContainerClient(containerName);
     const blobClient = containerClient.getBlockBlobClient(blobName);
-    const result = await blobClient.delete();
-    fetchImages(); // Fetch the images again after deleting the image
+    try {
+      await blobClient.delete();
+      toast.success("Image deleted successfully.", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+      setUserImageUrl(null);
+      await fetchImages();
+      window.location.reload();
+    }
+    catch (error) {
+      console.log("Error deleting image:", error);
+    }
   };
+  useEffect(() => {
+    fetchImages();
+  }, []);
 
   return (
     <div className="profile_page">
+      {loading && <Loading />}
       <h1 className="profile_title">Your Profile</h1>
       <div className="profile_wrapper">
         <div className="user_img">
@@ -130,20 +174,23 @@ function Profile() {
               <input
                 type="file"
                 id="fileInput"
-                onChange={(e) => setFile(e.target.files[0])}
+                onChange={(e) => setFile(e.target.files[0])} // set the file to the state.
               />
               <button
                 type="submit"
                 onClick={handleSubmit}
                 className="uploadimage"
               >
-                Upload
+                Save
               </button>
 
               {/* button to delete image */}
               {userImageUrl && (
                 <button
-                  onClick={() => deleteImage(userData.user_id + ".png")}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    deleteImage(userData.user_id + ".png");
+                  }}
                   className="delbtn"
                 >
                   <MdDelete className="del_profile" />
