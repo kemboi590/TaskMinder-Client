@@ -31,13 +31,19 @@ function Notify() {
 
       <div className="notification_wrapper">
         <ol className="ordered_list">
-          {notifications.map((notification, index) => {
-            return (
-              <div className="notifications_content" key={index}>
-                <li>{notification.content}</li>
-              </div>
-            );
-          })}
+          {notifications.length > 0 ? (
+            notifications.map((notification, index) => {
+              return (
+                <div className="notifications_content" key={index}>
+                  <li>{notification.content}</li>
+                </div>
+              );
+            })
+          ) : (
+            <div className="no_notifications">
+              No notifications at the moment🙁
+            </div>
+          )}
         </ol>
       </div>
     </div>
