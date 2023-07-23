@@ -26,3 +26,23 @@
   font-size: 20px;
   color: #333;
 }
+
+@media screen and (max-width: 600px) {
+  .notification_wrapper {
+    width: 100%;
+  }
+
+  .notify_title {
+    font-size: 20px;
+  }
+  .notifications_content {
+    font-size: 15px;
+  }
+  .no_notifications{
+    font-size: 15px;
+  }
+
+  .notify_page {
+    margin-top: 50px;
+  }
+}
