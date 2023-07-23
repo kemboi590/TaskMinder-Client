@@ -36,9 +36,7 @@ function CreateTask() {
   const getAllUsers = async () => {
     try {
       const response = await Axios.get(`${apidomain}/users`, {
-        headers: {
-          Authorization: `${userData.token}`,
-        },
+        headers: { Authorization: `${userData.token}` },
       });
       setUsers(response.data);
     } catch (error) {
@@ -59,9 +57,7 @@ function CreateTask() {
 
   const onSubmit = (data) => {
     Axios.post(`${apidomain}/tasks`, data, {
-      headers: {
-        Authorization: `${userData.token}`,
-      },
+      headers: { Authorization: `${userData.token}` },
     })
       .then((resonse) => {
         toast.success(resonse.data.message, toastStyles.success);
@@ -73,6 +69,7 @@ function CreateTask() {
         console.log(resonse);
       });
     // console.log(data);
+    
   };
 
   return (
@@ -103,11 +100,9 @@ function CreateTask() {
               {users.map((user) => (
                 <React.Fragment key={user.user_id}>
                   <input type="radio" value={user.user_id} {...register("assigned_to")} />
-
                   <label htmlFor="">{user.username}</label>
                 </React.Fragment>
               ))}
-
               {errors.assigned_to && <p className="errors">{errors.assigned_to.message}</p>}
             </div>
           </div>
@@ -139,7 +134,6 @@ function CreateTask() {
           </div>
           <br />
 
-          {/* a submit button saying create task */}
           <input type="submit" value="Create Task" className="submit_task" />
         </div>
       </form>

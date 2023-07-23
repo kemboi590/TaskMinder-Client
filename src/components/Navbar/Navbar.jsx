@@ -8,6 +8,7 @@ import { FaTasks } from "react-icons/fa";
 import { GiArchiveRegister } from "react-icons/gi";
 import { MdOutlineLogin } from "react-icons/md";
 import { AiOutlineUserAdd } from "react-icons/ai";
+import { AiOutlineNotification } from "react-icons/ai";
 import { useSelector } from "react-redux";
 
 function Navbar() {
@@ -40,11 +41,19 @@ function Navbar() {
         {/* second nav div */}
         <div className="second_nav">
           {userData ? (
-            <li>
-              <Link to="/profile">
-                <AiOutlineUserAdd /> {userData.username}
-              </Link>
-            </li>
+            <>
+              <li>
+                <Link to="/notifications">
+                  <AiOutlineNotification /> Notifications
+                </Link>
+              </li>
+
+              <li>
+                <Link to="/profile">
+                  <AiOutlineUserAdd /> {userData.username}
+                </Link>
+              </li>
+            </>
           ) : (
             <>
               <li>
