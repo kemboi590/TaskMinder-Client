@@ -1,6 +1,6 @@
 import React from "react";
 import "./dashboard.css";
-import DashboardGif from "../../Images/DashboardGif.gif"
+import DashboardGif from "../../Images/DashboardGif.gif";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
@@ -32,7 +32,7 @@ function Dashboard() {
           <p className="start_today"> Start Today: </p>
         ) : (
           <p className="start_today">
-            Welcome <span >{userData.username} </span> to TaskMider:
+            Welcome <span>{userData.username} </span> to TaskMider:
           </p>
         )}
 

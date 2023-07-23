@@ -24,6 +24,7 @@ function ViewTask() {
         },
       });
       setTasks(response.data);
+      // console.log(response.data);
     } catch (response) {
       console.log(response);
     }
@@ -38,9 +39,7 @@ function ViewTask() {
     // Apply title filter
     if (titleFilter !== "") {
       const lowercaseTitleFilter = titleFilter.toLowerCase(); // Ignore case
-      filtered = filtered.filter((task) =>
-        task.title.toLowerCase().includes(lowercaseTitleFilter)
-      );
+      filtered = filtered.filter((task) => task.title.toLowerCase().includes(lowercaseTitleFilter));
     }
 
     // Apply priority filter
@@ -57,19 +56,11 @@ function ViewTask() {
       <div className="filterInfo">
         <div className="filter_section">
           <label>Filter By Title:</label>
-          <input
-            type="text"
-            value={titleFilter}
-            onChange={(e) => setTitleFilter(e.target.value)}
-          />
+          <input type="text" value={titleFilter} onChange={(e) => setTitleFilter(e.target.value)} />
         </div>
         <div className="filter_section">
           <label>Filter By Priority:</label>
-          <select
-            className="select_priority"
-            value={priorityFilter}
-            onChange={(e) => setPriorityFilter(e.target.value)}
-          >
+          <select className="select_priority" value={priorityFilter} onChange={(e) => setPriorityFilter(e.target.value)}>
             <option value="">All</option>
             <option value="High">High</option>
             <option value="Medium">Medium</option>

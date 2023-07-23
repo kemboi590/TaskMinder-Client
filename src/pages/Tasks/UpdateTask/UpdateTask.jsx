@@ -59,14 +59,7 @@ function UpdateTask({ setshowUpdateForm, task, fetchSingleTask }) {
   const handleUpdate = async (e) => {
     e.preventDefault();
 
-    const errors = validateForm(
-      title,
-      description,
-      assigned_to,
-      due_date,
-      priority,
-      status
-    );
+    const errors = validateForm(title, description, assigned_to, due_date, priority, status);
     setErrors(errors);
 
     if (Object.keys(errors).length === 0) {
@@ -92,10 +85,7 @@ function UpdateTask({ setshowUpdateForm, task, fetchSingleTask }) {
         fetchSingleTask();
       } catch (response) {
         // alert("an error occured, please try again");
-        toast.error(
-          "an error occured, please try again later",
-          toastStyles.error
-        );
+        toast.error("an error occured, please try again later", toastStyles.error);
         // console.log(response);
       }
     }
@@ -108,32 +98,15 @@ function UpdateTask({ setshowUpdateForm, task, fetchSingleTask }) {
           <div>
             <label className="task_title">Task Title</label>
             <br />
-            <input
-              className="title_input"
-              type="text"
-              placeholder="your task title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              name="title"
-            />
+            <input className="title_input" type="text" placeholder="your task title" value={title} onChange={(e) => setTitle(e.target.value)} name="title" />
             {errors.title && <span className="errors">{errors.title}</span>}
           </div>
           <br />
           <div>
             <label className="task_description">Description</label>
             <br />
-            <textarea
-              className="description_input"
-              cols="30"
-              rows="10"
-              placeholder="your task description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              name="description"
-            ></textarea>
-            {errors.description && (
-              <span className="errors">{errors.description}</span>
-            )}
+            <textarea className="description_input" cols="30" rows="10" placeholder="your task description" value={description} onChange={(e) => setDescription(e.target.value)} name="description"></textarea>
+            {errors.description && <span className="errors">{errors.description}</span>}
           </div>
           <br />
           <div>
@@ -143,30 +116,18 @@ function UpdateTask({ setshowUpdateForm, task, fetchSingleTask }) {
               {/* getting all users in the database */}
               {users.map((user) => (
                 <React.Fragment key={user.user_id}>
-                  <input
-                    type="radio"
-                    value={user.user_id}
-                    name="assigned_to"
-                    onChange={(e) => setAssigned_to(e.target.value)}
-                  />
+                  <input type="radio" value={user.user_id} name="assigned_to" onChange={(e) => setAssigned_to(e.target.value)} />
                   <label>{user.username}</label>
                 </React.Fragment>
               ))}
             </div>
-            {errors.assigned_to && (
-              <span className="errors">{errors.assigned_to}</span>
-            )}
+            {errors.assigned_to && <span className="errors">{errors.assigned_to}</span>}
           </div>
           <div className="task_progress">
             <label className="task_progress">Task Progress</label>
             <br />
             {/* select for task progress */}
-            <select
-              className="select_progress"
-              name="status"
-              value={status}
-              onChange={(e) => setStatus(e.target.value)}
-            >
+            <select className="select_progress" name="status" value={status} onChange={(e) => setStatus(e.target.value)}>
               <option value="Not Started">Not Started</option>
               <option value="In Progress">In Progress</option>
               <option value="Completed">Completed</option>
@@ -178,53 +139,22 @@ function UpdateTask({ setshowUpdateForm, task, fetchSingleTask }) {
           <div>
             <label className="task_dueDate">Due Date</label>
             <br />
-            <input
-              type="date"
-              name="due_date"
-              className="dueDate_calender"
-              value={due_date}
-              onChange={(e) => setDue_date(e.target.value)}
-            />
-            {errors.due_date && (
-              <span className="errors">{errors.due_date}</span>
-            )}
+            <input type="date" name="due_date" className="dueDate_calender" value={due_date} onChange={(e) => setDue_date(e.target.value)} />
+            {errors.due_date && <span className="errors">{errors.due_date}</span>}
           </div>
           <br />
           <div>
             <label className="task_priority">Priority</label>
             <br />
             <div className="radio_task">
-              <input
-                type="radio"
-                name="priority"
-                value="High"
-                className="radio_priority"
-                checked={priority === "High"}
-                onChange={(e) => setPriority(e.target.value)}
-              />
+              <input type="radio" name="priority" value="High" className="radio_priority" checked={priority === "High"} onChange={(e) => setPriority(e.target.value)} />
               <label className="task_priority">High</label>
-              <input
-                type="radio"
-                name="priority"
-                value="Medium"
-                className="radio_priority"
-                checked={priority === "Medium"}
-                onChange={(e) => setPriority(e.target.value)}
-              />
+              <input type="radio" name="priority" value="Medium" className="radio_priority" checked={priority === "Medium"} onChange={(e) => setPriority(e.target.value)} />
               <label className="task_priority">Medium</label>
-              <input
-                type="radio"
-                name="priority"
-                value="Low"
-                className="radio_priority"
-                checked={priority === "Low"}
-                onChange={(e) => setPriority(e.target.value)}
-              />
+              <input type="radio" name="priority" value="Low" className="radio_priority" checked={priority === "Low"} onChange={(e) => setPriority(e.target.value)} />
               <label className="priority">Low</label>
             </div>
-            {errors.priority && (
-              <span className="errors">{errors.priority}</span>
-            )}
+            {errors.priority && <span className="errors">{errors.priority}</span>}
           </div>
           <br />
           <div className="updateBTN">

@@ -69,10 +69,7 @@ function CreateTask() {
         // reset();
       })
       .catch((resonse) => {
-        toast.error(
-          "Oops! Something went wrong, try again later",
-          toastStyles.error
-        );
+        toast.error("Oops! Something went wrong, try again later", toastStyles.error);
         console.log(resonse);
       });
     // console.log(data);
@@ -85,12 +82,7 @@ function CreateTask() {
           <div>
             <label className="task_title"> Task Title</label>
             <br />
-            <input
-              className="title_input"
-              type="text"
-              placeholder="your task title"
-              {...register("title")}
-            />
+            <input className="title_input" type="text" placeholder="your task title" {...register("title")} />
 
             {errors.title && <p className="errors">{errors.title.message}</p>}
           </div>
@@ -98,17 +90,9 @@ function CreateTask() {
           <div>
             <label className="task_description">Description</label>
             <br />
-            <textarea
-              className="description_input"
-              cols="30"
-              rows="10"
-              placeholder=" your task description"
-              {...register("description")}
-            ></textarea>
+            <textarea className="description_input" cols="30" rows="10" placeholder=" your task description" {...register("description")}></textarea>
 
-            {errors.description && (
-              <p className="errors">{errors.description.message}</p>
-            )}
+            {errors.description && <p className="errors">{errors.description.message}</p>}
           </div>
           <br />
           <div>
@@ -118,19 +102,13 @@ function CreateTask() {
               {/* mapping users */}
               {users.map((user) => (
                 <React.Fragment key={user.user_id}>
-                  <input
-                    type="radio"
-                    value={user.user_id}
-                    {...register("assigned_to")}
-                  />
+                  <input type="radio" value={user.user_id} {...register("assigned_to")} />
 
                   <label htmlFor="">{user.username}</label>
                 </React.Fragment>
               ))}
 
-              {errors.assigned_to && (
-                <p className="errors">{errors.assigned_to.message}</p>
-              )}
+              {errors.assigned_to && <p className="errors">{errors.assigned_to.message}</p>}
             </div>
           </div>
 
@@ -138,16 +116,9 @@ function CreateTask() {
           <div>
             <label className="task_dueDate">Due Date</label>
             <br />
-            <input
-              type="date"
-              name="dueDate"
-              className="dueDate_calender"
-              {...register("due_date")}
-            />
+            <input type="date" name="dueDate" className="dueDate_calender" {...register("due_date")} />
 
-            {errors.due_date && (
-              <p className="errors">{errors.due_date.message}</p>
-            )}
+            {errors.due_date && <p className="errors">{errors.due_date.message}</p>}
           </div>
           <br />
           {/* set priority by using radio butons*/}
@@ -155,35 +126,15 @@ function CreateTask() {
             <label className="task_priority">Priority</label>
             <br />
             <div className="radio_task">
-              <input
-                type="radio"
-                name="priority"
-                value="High"
-                className="radio_priority"
-                {...register("priority")}
-              />
+              <input type="radio" name="priority" value="High" className="radio_priority" {...register("priority")} />
               <label className="task_priority">High</label>
-              <input
-                type="radio"
-                name="priority"
-                value="Medium"
-                className="radio_priority"
-                {...register("priority")}
-              />
+              <input type="radio" name="priority" value="Medium" className="radio_priority" {...register("priority")} />
               <label className="task_priority">Medium</label>
-              <input
-                type="radio"
-                name="priority"
-                value="Low"
-                className="radio_priority"
-                {...register("priority")}
-              />
+              <input type="radio" name="priority" value="Low" className="radio_priority" {...register("priority")} />
 
               <label className="priority">Low</label>
 
-              {errors.priority && (
-                <p className="errors">{errors.priority.message}</p>
-              )}
+              {errors.priority && <p className="errors">{errors.priority.message}</p>}
             </div>
           </div>
           <br />

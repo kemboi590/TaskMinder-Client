@@ -9,6 +9,7 @@ import { BlobServiceClient } from "@azure/storage-blob";
 import { MdDelete } from "react-icons/md";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { toastStyles } from "../../toastConfig";
 
 // Import environment variable
 
@@ -34,11 +35,8 @@ function Profile() {
   const fetchImages = async () => {
     try {
       setLoading(true);
-      const blobServiceClient = new BlobServiceClient(
-        `https://${account}.blob.core.windows.net`
-      );
-      const containerClient =
-        blobServiceClient.getContainerClient(containerName);
+      const blobServiceClient = new BlobServiceClient(`https://${account}.blob.core.windows.net`);
+      const containerClient = blobServiceClient.getContainerClient(containerName);
       const blobItems = containerClient.listBlobsFlat();
 
       let urls = []; //returns an array of objects with name and url
@@ -50,9 +48,7 @@ function Profile() {
       setLoading(false);
 
       // Find the URL for the specific user and set it to the state
-      const userImage = urls.find(
-        (url) => url.name === `${userData.user_id}.png`
-      );
+      const userImage = urls.find((url) => url.name === `${userData.user_id}.png`);
       if (userImage) {
         setUserImageUrl(userImage.url);
       } else {
@@ -67,16 +63,7 @@ function Profile() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!file) {
-      return toast.error("File does not exist", {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
+      return toast.error("Please select an image", toastStyles.error);
     } else {
       try {
         setLoading(true);
@@ -85,25 +72,13 @@ function Profile() {
           `https://${account}.blob.core.windows.net/?${sasToken}` // Use the SAS token to authenticate
         );
         //blobService Client is a class that allows us to interact with the blob storage
-        const containerClient =
-          blobServiceClient.getContainerClient(containerName); // Get the container client used to interact with the container
+        const containerClient = blobServiceClient.getContainerClient(containerName); // Get the container client used to interact with the container
         const blobClient = containerClient.getBlockBlobClient(blobName); // Get the blob client used to interact with the blob
         const result = await blobClient.uploadData(file, {
           blobHTTPHeaders: { blobContentType: file.type },
         });
 
-        toast.success("File uploaded successfully", {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-        });
-
-        // Fetch the new images and find the URL for the specific user
+        toast.success("File uploaded successfully", toastStyles.success);
         fetchImages();
         setLoading(false);
       } catch (error) {
@@ -114,23 +89,12 @@ function Profile() {
   };
 
   const deleteImage = async (blobName) => {
-    const blobServiceClient = new BlobServiceClient(
-      `https://${account}.blob.core.windows.net/?${sasToken}`
-    );
+    const blobServiceClient = new BlobServiceClient(`https://${account}.blob.core.windows.net/?${sasToken}`);
     const containerClient = blobServiceClient.getContainerClient(containerName);
     const blobClient = containerClient.getBlockBlobClient(blobName);
     try {
       await blobClient.delete();
-      toast.success("Image deleted successfully.", {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
+      toast.success("Image deleted successfully.", toastStyles.success);
       setUserImageUrl(null);
       await fetchImages();
       window.location.reload();
@@ -150,17 +114,7 @@ function Profile() {
         <div className="user_img">
           <form>
             <div className="file_upload">
-              {file ? (
-                <img
-                  className=""
-                  src={URL.createObjectURL(file)}
-                  alt="no pic"
-                />
-              ) : userImageUrl ? (
-                <img className="" src={userImageUrl} alt="profile pic" />
-              ) : (
-                <img className="displayImg" src={placeholder} alt="nopic" />
-              )}
+              {file ? <img className="" src={URL.createObjectURL(file)} alt="no pic" /> : userImageUrl ? <img className="" src={userImageUrl} alt="profile pic" /> : <img className="displayImg" src={placeholder} alt="nopic" />}
             </div>
 
             <div className="upload-form_inputs">
@@ -169,11 +123,7 @@ function Profile() {
                 id="fileInput"
                 onChange={(e) => setFile(e.target.files[0])} // set the file to the state.
               />
-              <button
-                type="submit"
-                onClick={handleSubmit}
-                className="uploadimage"
-              >
+              <button type="submit" onClick={handleSubmit} className="uploadimage">
                 Save
               </button>
 

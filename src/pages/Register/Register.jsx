@@ -15,10 +15,7 @@ const schema = yup.object().shape({
   username: yup.string().required("Full name is required"),
   email: yup.string().email("email is invalid").required("email is required"),
   role: yup.string().required("role is required"),
-  password: yup
-    .string()
-    .min(4, "password must be at least 4 characters")
-    .required("password is required"),
+  password: yup.string().min(4, "password must be at least 4 characters").required("password is required"),
   Confirmpassword: yup
     .string()
     .oneOf([yup.ref("password"), null], "passwords must match")
@@ -37,15 +34,14 @@ function Register() {
   const onSubmit = (data) => {
     Axios.post(`${apidomain}/auth/register`, data)
       .then((response) => {
-        response.data.message &&
-          toast.success(response.data.message, toastStyles.success);
+        response.data.message && toast.success(response.data.message, toastStyles.success);
         navigate("/login");
         // reset();
       })
       .catch(({ response }) => {
         toast.error(response.data.error, toastStyles.error);
       });
-     // reset();
+    // reset();
   };
 
   return (
@@ -55,23 +51,13 @@ function Register() {
           <h3 className="register_title">REGISTER YOUR ACCOUNT</h3>
           {/* Input username */}
           <>
-            <input
-              className="inputFieldLogin"
-              type="text"
-              placeholder="Your username"
-              {...register("username")}
-            />
+            <input className="inputFieldLogin" type="text" placeholder="Your username" {...register("username")} />
             <p>{errors.username?.message}</p>
           </>
           <br />
           {/* Input email */}
           <>
-            <input
-              className="inputFieldLogin"
-              type="email"
-              placeholder="Your email"
-              {...register("email")}
-            />
+            <input className="inputFieldLogin" type="email" placeholder="Your email" {...register("email")} />
             <p>{errors.email?.message}</p>
           </>
           <br />
@@ -88,23 +74,13 @@ function Register() {
           <br />
           {/* Input password */}
           <>
-            <input
-              className="inputFieldLogin"
-              type="password"
-              placeholder="Your password"
-              {...register("password")}
-            />
+            <input className="inputFieldLogin" type="password" placeholder="Your password" {...register("password")} />
             <p>{errors.password?.message}</p>
           </>
           <br />
           {/* Confirm password */}
           <>
-            <input
-              className="inputFieldLogin"
-              type="password"
-              placeholder="Confirm your password"
-              {...register("Confirmpassword")}
-            />
+            <input className="inputFieldLogin" type="password" placeholder="Confirm your password" {...register("Confirmpassword")} />
             <p>{errors.Confirmpassword?.message}</p>
           </>
           <br />

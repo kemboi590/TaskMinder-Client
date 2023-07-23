@@ -1,25 +1,16 @@
 import React, { useEffect } from "react";
 import "./login.css";
-
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import authimage from "../../Images/authimage.jpg";
-// import { apidomain } from "../../utils/domain";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../../Redux/apiCall";
-import { useSelector, useDispatch } from "react-redux";
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-// import Axios from "axios";
 
 const schema = yup.object().shape({
-  // UserName: yup.string().required("Full name is required"),
   email: yup.string().email("email is invalid").required("Email is required"),
-  password: yup
-    .string()
-    .min(4, "password must be at least 4 characters")
-    .required("password is required"),
+  password: yup.string().min(4, "password must be at least 4 characters").required("password is required"),
 });
 
 function Login() {
@@ -40,24 +31,15 @@ function Login() {
       <div className="login_form">
         <form onSubmit={handleSubmit(onSubmit)}>
           <h3 className="login_title">LOGIN YOUR ACCOUNT</h3>
+          {/* input email */}
           <>
-            <input
-              className="inputFieldLogin"
-              type="email"
-              placeholder="Your email"
-              {...register("email")}
-            />
+            <input className="inputFieldLogin" type="email" placeholder="Your email" {...register("email")} />
             <p className="errors">{errors.email?.message}</p>
           </>
           <br />
           {/* Input password */}
           <>
-            <input
-              className="inputFieldLogin"
-              type="password"
-              placeholder="Your password"
-              {...register("password")}
-            />
+            <input className="inputFieldLogin" type="password" placeholder="Your password" {...register("password")} />
             <p className="errors">{errors.password?.message}</p>
           </>
           <br />

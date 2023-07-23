@@ -22,27 +22,23 @@ function Navbar() {
           <div className="myLogo">
             <img src={Icon} alt="icon" />
           </div>
-          {/* dasboard */}
+
           <li>
             <Link to="/">
-              <ImHome />
-              Dashboard
+              <ImHome /> Dashboard
             </Link>
           </li>
-          {/* tasks */}
+
           {userData && (
             <li>
               <Link to="/tasks">
-                <FaTasks />
-                Tasks
+                <FaTasks /> Tasks
               </Link>
             </li>
           )}
         </div>
         {/* second nav div */}
         <div className="second_nav">
-          {/* profile */}
-
           {userData ? (
             <li>
               <Link to="/profile">
@@ -53,15 +49,13 @@ function Navbar() {
             <>
               <li>
                 <Link to="/register">
-                  <GiArchiveRegister />
-                  Register
+                  <GiArchiveRegister /> Register
                 </Link>
               </li>
 
               <li>
                 <Link to="/login">
-                  <MdOutlineLogin />
-                  Login
+                  <MdOutlineLogin /> Login
                 </Link>
               </li>
             </>

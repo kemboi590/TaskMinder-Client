@@ -15,8 +15,8 @@ function Discussions() {
   const { id } = useParams();
   const userData = useSelector((state) => state.user.user);
   const [commentsDetails, setCommentsDetails] = useState([]);
-  const [showEditForm, setShowEditForm] = useState({}); 
-  const [tempComment, setTempComment] = useState([]); 
+  const [showEditForm, setShowEditForm] = useState({});
+  const [tempComment, setTempComment] = useState([]);
 
   const getAllComments = async () => {
     try {
@@ -99,9 +99,7 @@ function Discussions() {
           commentsDetails.map((comment, index) => {
             const timestamp = new Date(comment.timestamp).toLocaleString();
             const isCurrentUserComment = comment.username === userData.username;
-            const chatClass = isCurrentUserComment
-              ? "chat_bubble_right"
-              : "chat_bubble_left";
+            const chatClass = isCurrentUserComment ? "chat_bubble_right" : "chat_bubble_left";
 
             return (
               <div className={`comment_card ${chatClass}`} key={index}>
@@ -115,17 +113,10 @@ function Discussions() {
                 <div className="edit_delete">
                   <div className="edit_comment">
                     <BsPencilFill onClick={() => handleEditToggle(comment)} />
-                    {showEditForm[comment.comment_id] && (
-                      <UpdateComment
-                        comment={tempComment}
-                        getAllComments={getAllComments}
-                      />
-                    )}
+                    {showEditForm[comment.comment_id] && <UpdateComment comment={tempComment} getAllComments={getAllComments} />}
                   </div>
                   <div className="delete_comment">
-                    <FaTrash
-                      onClick={() => handleCommentDelete(comment.comment_id)}
-                    />
+                    <FaTrash onClick={() => handleCommentDelete(comment.comment_id)} />
                   </div>
                 </div>
               </div>
@@ -135,12 +126,7 @@ function Discussions() {
         <form onSubmit={handleSubmit} className="myFormComments">
           <div className="form_for_comments">
             <div className="textarea">
-              <textarea
-                className="inputComment"
-                placeholder="Write a comment"
-                name="Coment"
-                ref={textareaRef}
-              />
+              <textarea className="inputComment" placeholder="Write a comment" name="Coment" ref={textareaRef} />
             </div>
 
             <button type="submit" className="sbmtComment">
