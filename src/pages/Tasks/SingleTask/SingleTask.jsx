@@ -25,6 +25,7 @@ function SingleTask() {
           Authorization: `${userData.token}`,
         },
       });
+
       setTask(response.data);
     } catch (response) {
       console.log(response);
@@ -139,7 +140,11 @@ function SingleTask() {
 
       {showUpdateForm && (
         <div className="update_task_form">
-          <UpdateTask setshowUpdateForm={setshowUpdateForm} task={tempTaskData} fetchSingleTask={fetchSingleTask} />
+          <UpdateTask
+            setshowUpdateForm={setshowUpdateForm}
+            task={tempTaskData}
+            fetchSingleTask={fetchSingleTask}
+          />
         </div>
       )}
 

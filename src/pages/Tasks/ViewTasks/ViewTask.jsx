@@ -19,9 +19,7 @@ function ViewTask() {
   const getAllTasks = async () => {
     try {
       const response = await Axios.get(`${apidomain}/tasks`, {
-        headers: {
-          Authorization: `${userData.token}`,
-        },
+        headers: { Authorization: `${userData.token}` },
       });
       setTasks(response.data);
       // console.log(response.data);

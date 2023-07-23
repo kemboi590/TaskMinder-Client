@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { toastStyles } from "../../../toastConfig";
+import { createNotification } from "./../../Notifications/notificationCall";
 
 // schema to do form validation when data is submitted
 const schema = yup.object().shape({
@@ -33,6 +34,7 @@ function CreateTask() {
   const [users, setUsers] = useState([]);
   const userData = useSelector((state) => state.user.user);
   const navigate = useNavigate();
+
   const getAllUsers = async () => {
     try {
       const response = await Axios.get(`${apidomain}/users`, {
@@ -63,13 +65,21 @@ function CreateTask() {
         toast.success(resonse.data.message, toastStyles.success);
         navigate("/tasks");
         // reset();
+        // NOTIFICATION CALL
+        const notificationData = {
+          user_id: data.assigned_to,
+          content: `Hello!, ${userData.username} has assigned you a task with a title: ${data.title}, please check it out`,
+        };
+        createNotification(userData, notificationData);
+        console.log(data);
       })
       .catch((resonse) => {
-        toast.error("Oops! Something went wrong, try again later", toastStyles.error);
+        toast.error(
+          "Oops! Something went wrong, try again later",
+          toastStyles.error
+        );
         console.log(resonse);
       });
-    // console.log(data);
-    
   };
 
   return (
@@ -79,7 +89,12 @@ function CreateTask() {
           <div>
             <label className="task_title"> Task Title</label>
             <br />
-            <input className="title_input" type="text" placeholder="your task title" {...register("title")} />
+            <input
+              className="title_input"
+              type="text"
+              placeholder="your task title"
+              {...register("title")}
+            />
 
             {errors.title && <p className="errors">{errors.title.message}</p>}
           </div>
@@ -87,9 +102,17 @@ function CreateTask() {
           <div>
             <label className="task_description">Description</label>
             <br />
-            <textarea className="description_input" cols="30" rows="10" placeholder=" your task description" {...register("description")}></textarea>
+            <textarea
+              className="description_input"
+              cols="30"
+              rows="10"
+              placeholder=" your task description"
+              {...register("description")}
+            ></textarea>
 
-            {errors.description && <p className="errors">{errors.description.message}</p>}
+            {errors.description && (
+              <p className="errors">{errors.description.message}</p>
+            )}
           </div>
           <br />
           <div>
@@ -99,11 +122,17 @@ function CreateTask() {
               {/* mapping users */}
               {users.map((user) => (
                 <React.Fragment key={user.user_id}>
-                  <input type="radio" value={user.user_id} {...register("assigned_to")} />
+                  <input
+                    type="radio"
+                    value={user.user_id}
+                    {...register("assigned_to")}
+                  />
                   <label htmlFor="">{user.username}</label>
                 </React.Fragment>
               ))}
-              {errors.assigned_to && <p className="errors">{errors.assigned_to.message}</p>}
+              {errors.assigned_to && (
+                <p className="errors">{errors.assigned_to.message}</p>
+              )}
             </div>
           </div>
 
@@ -111,9 +140,16 @@ function CreateTask() {
           <div>
             <label className="task_dueDate">Due Date</label>
             <br />
-            <input type="date" name="dueDate" className="dueDate_calender" {...register("due_date")} />
+            <input
+              type="date"
+              name="dueDate"
+              className="dueDate_calender"
+              {...register("due_date")}
+            />
 
-            {errors.due_date && <p className="errors">{errors.due_date.message}</p>}
+            {errors.due_date && (
+              <p className="errors">{errors.due_date.message}</p>
+            )}
           </div>
           <br />
           {/* set priority by using radio butons*/}
@@ -121,15 +157,33 @@ function CreateTask() {
             <label className="task_priority">Priority</label>
             <br />
             <div className="radio_task">
-              <input type="radio" name="priority" value="High" className="radio_priority" {...register("priority")} />
+              <input
+                type="radio"
+                name="priority"
+                value="High"
+                className="radio_priority"
+                {...register("priority")}
+              />
               <label className="task_priority">High</label>
-              <input type="radio" name="priority" value="Medium" className="radio_priority" {...register("priority")} />
+              <input
+                type="radio"
+                name="priority"
+                value="Medium"
+                className="radio_priority"
+                {...register("priority")}
+              />
               <label className="task_priority">Medium</label>
-              <input type="radio" name="priority" value="Low" className="radio_priority" {...register("priority")} />
-
+              <input
+                type="radio"
+                name="priority"
+                value="Low"
+                className="radio_priority"
+                {...register("priority")}
+              />
               <label className="priority">Low</label>
-
-              {errors.priority && <p className="errors">{errors.priority.message}</p>}
+              {errors.priority && (
+                <p className="errors">{errors.priority.message}</p>
+              )}
             </div>
           </div>
           <br />

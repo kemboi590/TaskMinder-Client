@@ -7,10 +7,10 @@ import Login from "./pages/Login/Login";
 import NotFound from "./pages/NotFound/NotFound";
 import Tasks from "./pages/Tasks/Tasks";
 import Profile from "./pages/Profile/Profile";
-import Notifications from "./pages/Notification/Notifications";
 import SingleTask from "./pages/Tasks/SingleTask/SingleTask";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Notify from "./pages/Notifications/Notify";
 
 function App() {
   return (
@@ -23,7 +23,8 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/notifications" element={<Notifications />} />
+          <Route path="/notifications/:id" element ={<Notify/>} />
+
           <Route path="/tasks/:id" element={<SingleTask />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

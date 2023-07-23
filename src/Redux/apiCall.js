@@ -32,3 +32,6 @@ export const logOutuser = async (dispatch) => {
   dispatch(logOut());
   toast.success("You are logged out", toastStyles.success);
 };
+
+
+

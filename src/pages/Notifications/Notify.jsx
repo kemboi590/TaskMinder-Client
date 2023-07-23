@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Axios from "axios";
 import "./notifications.css";
-import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { apidomain } from "../../utils/domain";
-
-function Notifications() {
-  const { id } = useParams();
+function Notify() {
   const userData = useSelector((state) => state.user.user);
-  // const [notifications, setNotifications] = useState([]);
+  const [notifications, setNotifications] = useState([]);
 
   const getUserNotifications = async () => {
     try {
@@ -18,32 +15,33 @@ function Notifications() {
           headers: { Authorization: `${userData.token}` },
         }
       );
-      console.log("kemboiii", response);
-      // setNotifications(response.data);
+      console.log(response.data);
+      setNotifications(response.data);
     } catch (response) {
       console.log(response);
     }
   };
-  console.log("kemboiii");
   useEffect(() => {
     getUserNotifications();
-  }, [id]);
+  }, []);
 
   return (
-    <div>
-      Hello
-      <div className="notifications">
-        {/* map notifications */}
-        {notifications.map((notification) => {
-          return (
-            <div className="notification__title">
-              <h3>{notification.content}</h3>
-            </div>
-          );
-        })}
+    <div className="notify_page">
+      <h2 className="notify_title">Notifications</h2>
+
+      <div className="notification_wrapper">
+        <ol className="ordered_list">
+          {notifications.map((notification, index) => {
+            return (
+              <div className="notifications_content" key={index}>
+                <li>{notification.content}</li>
+              </div>
+            );
+          })}
+        </ol>
       </div>
     </div>
   );
 }
 
-export default Notifications;
+export default Notify;

@@ -43,7 +43,7 @@ function Navbar() {
           {userData ? (
             <>
               <li>
-                <Link to="/notifications">
+                <Link to={`/notifications/${userData.user_id}`}>
                   <AiOutlineNotification /> Notifications
                 </Link>
               </li>

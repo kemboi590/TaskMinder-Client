@@ -7,6 +7,7 @@ import authimage from "../../Images/authimage.jpg";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../../Redux/apiCall";
 import "react-toastify/dist/ReactToastify.css";
+import { useDispatch } from "react-redux";
 
 const schema = yup.object().shape({
   email: yup.string().email("email is invalid").required("Email is required"),
