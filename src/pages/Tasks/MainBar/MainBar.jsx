@@ -3,8 +3,8 @@ import "./mainbar.css";
 
 import CreateTask from "../CreateTask/CreateTask";
 import ViewTask from "../ViewTasks/ViewTask";
-import Contact from "../Charts/Contact";
 import { useSelector } from "react-redux";
+import ReChart from "./../Represent/ReChart";
 
 function MainBar() {
   const selectedComponent = useSelector((state) => state.ui.selectedComponent);
@@ -17,7 +17,7 @@ function MainBar() {
       case "viewTask":
         return <ViewTask />;
       case "contactPage":
-        return <Contact />;
+        return <ReChart />;
       default:
         return <ViewTask />;
     }

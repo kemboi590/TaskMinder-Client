@@ -21,10 +21,35 @@
   padding: 10px;
   border-bottom: 1px solid #888;
 }
-.no_notifications{
+.notifications_content li span {
+  font-weight: bold;
+  color: #333;
+  color: red;
+  font-size: 20px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-right: 10px;
+}
+.no_notifications {
   text-align: center;
   font-size: 20px;
   color: #333;
+}
+.clear_notifications {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-right: 10px;
+}
+.clear_notifications button {
+  background-color: #333;
+  background-color: rgba(199, 13, 13, 0.706);
+  color: #fff;
+  border: none;
+  padding: 6px;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 @media screen and (max-width: 600px) {
@@ -38,7 +63,7 @@
   .notifications_content {
     font-size: 15px;
   }
-  .no_notifications{
+  .no_notifications {
     font-size: 15px;
   }
 

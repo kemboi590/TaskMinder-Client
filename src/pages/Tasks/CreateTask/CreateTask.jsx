@@ -48,7 +48,7 @@ function CreateTask() {
 
   useEffect(() => {
     getAllUsers();
-  }, []); //get all users in page reload
+  }, []);
 
   const {
     register,

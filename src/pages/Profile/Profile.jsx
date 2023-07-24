@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import placeholder from "../../Images/placeholder.png";
 import Loading from "../../components/Loading/Loading";
 import { BlobServiceClient } from "@azure/storage-blob";
-import { MdDelete } from "react-icons/md";
+import { MdDelete } from "react-icons/md"; 
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { toastStyles } from "../../toastConfig";

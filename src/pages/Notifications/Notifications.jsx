@@ -8,7 +8,7 @@ import { apidomain } from "../../utils/domain";
 function Notifications() {
   const { id } = useParams();
   const userData = useSelector((state) => state.user.user);
-  // const [notifications, setNotifications] = useState([]);
+  const [notifications, setNotifications] = useState([]);
 
   const getUserNotifications = async () => {
     try {
@@ -19,7 +19,7 @@ function Notifications() {
         }
       );
       console.log("kemboiii", response);
-      // setNotifications(response.data);
+      setNotifications(response.data);
     } catch (response) {
       console.log(response);
     }

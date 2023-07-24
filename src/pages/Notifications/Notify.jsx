@@ -3,7 +3,13 @@ import Axios from "axios";
 import "./notifications.css";
 import { useSelector } from "react-redux";
 import { apidomain } from "../../utils/domain";
+import { MdDelete } from "react-icons/md";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { toastStyles } from "../../toastConfig";
+import { useParams } from "react-router-dom";
 function Notify() {
+  const { id } = useParams();
   const userData = useSelector((state) => state.user.user);
   const [notifications, setNotifications] = useState([]);
 
@@ -25,17 +31,41 @@ function Notify() {
     getUserNotifications();
   }, []);
 
+  const handleDeleteNotification = async () => {
+    try {
+      const response = await Axios.delete(
+        `${apidomain}/notifications/${id} `,
+        {
+          headers: { Authorization: `${userData.token}` },
+        }
+      );
+      console.log(response);
+      getUserNotifications();
+      toast.success("Notification deleted successfully", toastStyles.success);
+    } catch (response) {
+      console.log(response);
+    }
+  };
+
   return (
     <div className="notify_page">
       <h2 className="notify_title">Notifications</h2>
 
       <div className="notification_wrapper">
+        { notifications.length > 0 && 
+          <div className="clear_notifications">
+          <button onClick={handleDeleteNotification}>
+            Clear notifications
+          </button>
+        </div>
+        }
+        
         <ol className="ordered_list">
           {notifications.length > 0 ? (
             notifications.map((notification, index) => {
               return (
                 <div className="notifications_content" key={index}>
-                  <li>{notification.content}</li>
+                  <li>{notification.content} </li>
                 </div>
               );
             })
