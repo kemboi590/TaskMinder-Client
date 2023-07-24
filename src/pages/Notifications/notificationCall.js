@@ -8,8 +8,8 @@ export const createNotification = async (userData, notificationData) => {
         Authorization: `${userData.token}`,
       },
     });
-    console.log("Notification created:", response.data);
-    alert("Notification created!");
+    // console.log("Notification created:", response.data);
+    // alert("Notification created!");
     return response.data;
   } catch (error) {
     console.error("Error creating notification:", error.message);

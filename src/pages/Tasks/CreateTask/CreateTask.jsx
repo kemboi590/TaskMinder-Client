@@ -11,7 +11,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { toastStyles } from "../../../toastConfig";
 import { createNotification } from "./../../Notifications/notificationCall";
-
+import Loading from './../../../components/Loading/Loading';
 // schema to do form validation when data is submitted
 const schema = yup.object().shape({
   title: yup.string().required("Title is required"),
@@ -31,19 +31,22 @@ const schema = yup.object().shape({
 });
 
 function CreateTask() {
+  const [loading, setLoading] = useState(false);
+
   const [users, setUsers] = useState([]);
   const userData = useSelector((state) => state.user.user);
   const navigate = useNavigate();
 
   const getAllUsers = async () => {
     try {
+     
       const response = await Axios.get(`${apidomain}/users`, {
         headers: { Authorization: `${userData.token}` },
       });
       setUsers(response.data);
     } catch (error) {
       toast.error("error fetching users", toastStyles.error);
-    }
+    } 
   };
 
   useEffect(() => {
@@ -58,6 +61,7 @@ function CreateTask() {
   } = useForm({ resolver: yupResolver(schema) });
 
   const onSubmit = (data) => {
+    setLoading(true); // start loading
     Axios.post(`${apidomain}/tasks`, data, {
       headers: { Authorization: `${userData.token}` },
     })
@@ -71,14 +75,17 @@ function CreateTask() {
           content: `Hello!, ${userData.username} has assigned you a task with a title: ${data.title}, please check it out`,
         };
         createNotification(userData, notificationData);
-        console.log(data);
+        // console.log(data);
       })
       .catch((resonse) => {
         toast.error(
           "Oops! Something went wrong, try again later",
           toastStyles.error
         );
-        console.log(resonse);
+        // console.log(resonse);
+      })
+      .finally(() => {
+        setLoading(false); // stop loading
       });
   };
 
@@ -187,8 +194,14 @@ function CreateTask() {
             </div>
           </div>
           <br />
+          {loading && <Loading />}
 
-          <input type="submit" value="Create Task" className="submit_task" />
+          <input
+            type="submit"
+            value="Create Task"
+            className="submit_task"
+           
+          />
         </div>
       </form>
     </div>
