@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import { toastStyles } from "../../../toastConfig";
 import { validateForm } from "./formValidation";
 import "react-toastify/dist/ReactToastify.css";
+import Loading from "../../../components/Loading/Loading";
 
 function UpdateTask({ setshowUpdateForm, task, fetchSingleTask }) {
   const [title, setTitle] = useState("");
@@ -17,6 +18,7 @@ function UpdateTask({ setshowUpdateForm, task, fetchSingleTask }) {
   const [priority, setPriority] = useState("");
   const [errors, setErrors] = useState({});
   const [status, setStatus] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (task) {
@@ -37,12 +39,14 @@ function UpdateTask({ setshowUpdateForm, task, fetchSingleTask }) {
   // get request to fetch all users in the database
   const getAllUsers = async () => {
     try {
+      setLoading(true);
       const response = await Axios.get(`${apidomain}/users`, {
         headers: {
           Authorization: `${userData.token}`,
         },
       });
       setUsers(response.data);
+      setLoading(false);
     } catch (error) {
       toast.error("error fetching users", toastStyles.error);
     }
@@ -64,6 +68,7 @@ function UpdateTask({ setshowUpdateForm, task, fetchSingleTask }) {
 
     if (Object.keys(errors).length === 0) {
       try {
+        setLoading(true);
         const response = await Axios.put(
           `${apidomain}/tasks/${task.task_id}`,
           {
@@ -82,7 +87,9 @@ function UpdateTask({ setshowUpdateForm, task, fetchSingleTask }) {
         );
         // console.log(response.data.message);
         toast.success(response.data.message, toastStyles.success);
+        
         fetchSingleTask();
+        setLoading(false);
       } catch (response) {
         // alert("an error occured, please try again");
         toast.error("an error occured, please try again later", toastStyles.error);
@@ -93,6 +100,7 @@ function UpdateTask({ setshowUpdateForm, task, fetchSingleTask }) {
 
   return (
     <div className="create_task_page">
+      {loading && <Loading />}
       <form name="update form">
         <div className="task_form">
           <div>

@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toastStyles } from "../../../toastConfig";
 import { Link } from "react-router-dom";
+import Loading from "../../../components/Loading/Loading";
 
 function ViewTask() {
   const navigate = useNavigate();
@@ -14,14 +15,17 @@ function ViewTask() {
   const [filteredTasks, setFilteredTasks] = useState([]);
   const [titleFilter, setTitleFilter] = useState("");
   const [priorityFilter, setPriorityFilter] = useState("");
+  const [loading, setLoading] = useState(false);
   // const [dueDateFilter, setDueDateFilter] = useState("");
 
   const getAllTasks = async () => {
     try {
+      setLoading(true);
       const response = await Axios.get(`${apidomain}/tasks`, {
         headers: { Authorization: `${userData.token}` },
       });
       setTasks(response.data);
+      setLoading(false);
       // console.log(response.data);
     } catch (response) {
       console.log(response);
@@ -50,6 +54,7 @@ function ViewTask() {
 
   return (
     <div className="view_task_page">
+      {loading && <Loading />}
       <h2 className="available_tasks">AVAILABE TASKS</h2>
       <div className="filterInfo">
         <div className="filter_section">

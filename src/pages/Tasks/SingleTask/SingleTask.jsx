@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Discussions from "./../Discussions/Discussions";
 import { toastStyles } from "../../../toastConfig";
+import Loading from "./../../../components/Loading/Loading";
 
 function SingleTask() {
   const { id } = useParams();
@@ -17,9 +18,11 @@ function SingleTask() {
   const [tempTaskData, setTempTaskData] = useState([]);
   const [showUpdateForm, setshowUpdateForm] = useState(false);
   const [task, setTask] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const fetchSingleTask = async () => {
     try {
+      setLoading(true);
       const response = await Axios.get(`${apidomain}/tasks/${id}`, {
         headers: {
           Authorization: `${userData.token}`,
@@ -27,6 +30,7 @@ function SingleTask() {
       });
 
       setTask(response.data);
+      setLoading(false);
     } catch (response) {
       console.log(response);
     }
@@ -55,6 +59,7 @@ function SingleTask() {
       });
       // console.log(response.data.message);
       toast.success(response.data.message, toastStyles.success);
+
       navigate("/tasks");
     } catch (response) {
       // console.log(response);
@@ -64,6 +69,7 @@ function SingleTask() {
 
   return (
     <div className="task_page">
+      {loading && <Loading />}
       <table className="single_task_table">
         <caption className="single_task_title">SINGLE TASK</caption>
         <tbody>

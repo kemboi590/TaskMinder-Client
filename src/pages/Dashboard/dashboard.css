@@ -62,7 +62,15 @@
   font-family: Arial, Helvetica, sans-serif;
   color: #1e90ff;
 }
-.start_today span{
+.start_today_data{
+  margin: 10px 0;
+  font-size: 30px;
+  font-weight: bold;
+  flex-wrap: wrap;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #1e90ff;
+}
+.start_today_data span{
   color: #563b3b;
   font-style: italic;
 }
@@ -99,6 +107,9 @@
     width: 100%;
     flex-direction: column;
   }
+  .start_today_data{
+    font-size: 20px;
+  }
 }
 
 @media screen and (max-width: 433px) {
@@ -127,5 +138,8 @@
     padding: 10px 20px;
     font-size: 17px;
     font-weight: 500;
+  }
+  .start_today_data{
+    font-size: 17px;
   }
 }

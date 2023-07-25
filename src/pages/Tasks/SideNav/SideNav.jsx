@@ -4,7 +4,7 @@ import "./sidenav.css";
 import taskicon from "../../../Images/task-Icon.png";
 import { BiAddToQueue } from "react-icons/bi";
 import { FaTasks } from "react-icons/fa";
-import { BiSolidContact } from "react-icons/bi";
+import {AiOutlineTeam} from "react-icons/ai";
 import { useDispatch } from "react-redux";
 import { display } from "../../../Redux/apiCall";
 
@@ -44,8 +44,8 @@ function SideNav() {
       </div>
       {/* Contact Us */}
       <div className="contact_us" onClick={handleContact}>
-        <BiSolidContact className="contacticon" />
-        Support
+        <AiOutlineTeam className="contacticon" />
+        Team Members
       </div>
     </div>
   );

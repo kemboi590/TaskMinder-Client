@@ -31,8 +31,8 @@ function Dashboard() {
         {!userData ? (
           <p className="start_today"> Start Today: </p>
         ) : (
-          <p className="start_today">
-            Welcome <span>{userData.username} </span> to TaskMider:
+          <p className="start_today_data">
+            Welcome <span>{userData.username}  </span> to TaskMider:
           </p>
         )}
 

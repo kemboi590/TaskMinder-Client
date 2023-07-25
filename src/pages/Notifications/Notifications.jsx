@@ -18,13 +18,13 @@ function Notifications() {
           headers: { Authorization: `${userData.token}` },
         }
       );
-      console.log("kemboiii", response);
+      console.log( response);
       setNotifications(response.data);
     } catch (response) {
       console.log(response);
     }
   };
-  console.log("kemboiii");
+ 
   useEffect(() => {
     getUserNotifications();
   }, [id]);
