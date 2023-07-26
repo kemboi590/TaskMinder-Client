@@ -25,7 +25,7 @@ function Discussions() {
           Authorization: `${userData.token}`,
         },
       });
-      // console.log(response.data);
+      console.log(response.data);
       setCommentsDetails(response.data);
     } catch (response) {
       console.log(response);
@@ -57,7 +57,10 @@ function Discussions() {
       })
       .catch((error) => {
         console.log(error);
-        toast.error("Oops! Something went wrong. Please try again.", toastStyles.error);
+        toast.error(
+          "Oops! Something went wrong. Please try again.",
+          toastStyles.error
+        );
         textareaRef.current.value = "";
       });
   };
@@ -74,7 +77,10 @@ function Discussions() {
       getAllComments();
     } catch (error) {
       // console.log(error);
-      toast.error("Oops! Something went wrong. Please try again.", toastStyles.error);
+      toast.error(
+        "Oops! Something went wrong. Please try again.",
+        toastStyles.error
+      );
     }
   };
 
@@ -99,7 +105,9 @@ function Discussions() {
           commentsDetails.map((comment, index) => {
             const timestamp = new Date(comment.timestamp).toLocaleString();
             const isCurrentUserComment = comment.username === userData.username;
-            const chatClass = isCurrentUserComment ? "chat_bubble_right" : "chat_bubble_left";
+            const chatClass = isCurrentUserComment
+              ? "chat_bubble_right"
+              : "chat_bubble_left";
 
             return (
               <div className={`comment_card ${chatClass}`} key={index}>
@@ -111,13 +119,26 @@ function Discussions() {
 
                 <p className="comment_content">{comment.content}</p>
                 <div className="edit_delete">
-                  <div className="edit_comment">
-                    <BsPencilFill onClick={() => handleEditToggle(comment)} />
-                    {showEditForm[comment.comment_id] && <UpdateComment comment={tempComment} getAllComments={getAllComments} />}
-                  </div>
-                  <div className="delete_comment">
-                    <FaTrash onClick={() => handleCommentDelete(comment.comment_id)} />
-                  </div>
+                  {userData && userData.user_id === comment.user_id && (
+                    <div className="edit_comment">
+                      <BsPencilFill onClick={() => handleEditToggle(comment)} />
+                      {showEditForm[comment.comment_id] && (
+                        <UpdateComment
+                          comment={tempComment}
+                          getAllComments={getAllComments}
+                        />
+                      )}
+                    </div>
+                  )}
+
+                  {/* here */}
+                  {userData && userData.user_id === comment.user_id && (
+                    <div className="delete_comment">
+                      <FaTrash
+                        onClick={() => handleCommentDelete(comment.comment_id)}
+                      />
+                    </div>
+                  )}
                 </div>
               </div>
             );
@@ -126,7 +147,12 @@ function Discussions() {
         <form onSubmit={handleSubmit} className="myFormComments">
           <div className="form_for_comments">
             <div className="textarea">
-              <textarea className="inputComment" placeholder="Write a comment" name="Coment" ref={textareaRef} />
+              <textarea
+                className="inputComment"
+                placeholder="Write a comment"
+                name="Coment"
+                ref={textareaRef}
+              />
             </div>
 
             <button type="submit" className="sbmtComment">

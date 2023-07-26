@@ -32,16 +32,35 @@ function UpdateComment({ comment, getAllComments }) {
       })
       .catch((error) => {
         console.log(error);
-        toast.error("Oops! Something went wrong. Please try again.", toastStyles.error);
+        toast.error(
+          "Oops! Something went wrong. Please try again.",
+          toastStyles.error
+        );
       });
   };
   return (
     <div>
       <form className="updateComment">
-        <textarea className="inputupdateComment" placeholder="Write a comment" name="Coment" value={newComment} onChange={(e) => setNewComment(e.target.value)}></textarea>
-        <button type="submit" className="submitUpdate" onClick={handleSubmit}>
-          <IoSend />
-        </button>
+        <div className="lets_update_comment">
+          <>
+            <textarea
+              className="inputupdateComment"
+              placeholder="Write a comment"
+              name="Coment"
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+            ></textarea>
+          </>
+          <>
+            <button
+              type="submit"
+              className="submitUpdate"
+              onClick={handleSubmit}
+            >
+              <IoSend />
+            </button>
+          </>
+        </div>
       </form>
     </div>
   );
