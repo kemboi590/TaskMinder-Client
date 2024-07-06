@@ -5,7 +5,7 @@ const uiSlice = createSlice({
   initialState: {
     selectedComponent: null,
   },
-  reducers: {
+  reducers: {  // reducers are used to change the state
     selectComponent: (state, action) => {
       state.selectedComponent = action.payload;
     },

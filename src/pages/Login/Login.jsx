@@ -5,9 +5,9 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import authimage from "../../Images/authimage.jpg";
 import { useNavigate } from "react-router-dom";
-import { loginUser } from "../../Redux/apiCall";
 import "react-toastify/dist/ReactToastify.css";
 import { useDispatch } from "react-redux";
+import { loginUser } from "../../Redux/apiCall";
 import Loading from "../../components/Loading/Loading";
 
 const schema = yup.object().shape({
